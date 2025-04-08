@@ -11,7 +11,7 @@ Ts_pam = 1/fs;
 d = 0.2;           
 tau = d * Ts_pam;  
 
-% Tren de pulsos y PAM natural
+%% Tren de pulsos y PAM natural
 pulsos_natural = zeros(size(t));  
 m_pam_natural = zeros(size(t));   
 
@@ -22,7 +22,7 @@ for i = 1:length(t)
     end
 end
 
-% Gráficas
+%% Gráficas
 figure;
 
 subplot(3,1,1);
