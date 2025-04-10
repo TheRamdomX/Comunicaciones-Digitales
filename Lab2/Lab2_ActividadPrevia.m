@@ -3,8 +3,8 @@ clear;
 close all;
 
 %% Parámetros del filtro
-frecuencia_base = 1;           % Frecuencia base (Hz)
-ancho_banda = 2 * frecuencia_base; % Ancho de banda (para alpha=1)
+frecuencia_base = 1;                 % Frecuencia base (Hz)
+ancho_banda = 2 * frecuencia_base;   % Ancho de banda (para alpha=1)
 
 % Factores de roll-off (alpha) a evaluar
 roll_off_factors = [0, 0.25, 0.75, 1];  
@@ -16,7 +16,7 @@ tiempo = linspace(0, 10/frecuencia_base, 1000);
 % Rango de frecuencia (centrado en 0)
 frecuencia = linspace(-2*ancho_banda, 2*ancho_banda, 1000);
 
-%% 1. Respuesta al impulso (Dominio del tiempo)
+%% Respuesta al impulso (Dominio del tiempo)
 figure('Name', 'Respuesta al Impulso', 'Position', [100 100 800 400]);
 hold on;
 
@@ -31,7 +31,7 @@ for i = 1:length(roll_off_factors)
     % Cálculo del denominador (1 - (4*f_delta*t)^2)
     denominador = 1 - (4 * f_delta * tiempo).^2;
     
-    % Respuesta completa del filtro (CORRECCIÓN AQUÍ)
+    % Respuesta completa del filtro
     respuesta_impulso = 2 * frecuencia_base * termino_sinc .* ...
                        (cos(2*pi*f_delta * tiempo) ./ denominador);
     
@@ -51,7 +51,7 @@ legend('Location', 'best');
 grid on;
 hold off;
 
-%% 2. Respuesta en frecuencia (Dominio frecuencial)
+%% Respuesta en frecuencia (Dominio frecuencial)
 figure('Name', 'Respuesta en Frecuencia', 'Position', [100 100 800 400]);
 hold on;
 
@@ -73,7 +73,7 @@ for i = 1:length(roll_off_factors)
             
         elseif (f_abs >= f_transicion) && (f_abs < ancho_banda)
             % Región de transición (roll-off)
-            respuesta_frecuencia(k) = 0.5 * (1 + cos(pi*(f_abs - f_transicion)/(2*f_delta)));
+            respuesta_frecuencia(k) = 0.5 * (1 + cos(pi*(f_abs - f_transicion)/(4.5 * f_delta)));
             
         else
             % Fuera de la banda
@@ -93,3 +93,4 @@ ylabel('Magnitud');
 legend('Location', 'best');
 grid on;
 hold off;
+
